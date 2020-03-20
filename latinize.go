@@ -2,19 +2,27 @@ package latinize
 
 import (
 	"strings"
+	"unicode"
 )
 
 func String(str string) string {
 	var result = []string{}
 
-	for _, letter := range str {
-		val, ok := charactersMap[string(letter)]
-		if !ok {
-			result = append(result, string(letter))
+	for _, strRune := range str {
+		symbol := string(strRune)
+
+		if !unicode.IsLetter(strRune) {
+			result = append(result, symbol)
 			continue
 		}
 
-		result = append(result, val)
+		val, ok := charactersMap[symbol]
+		if ok {
+			result = append(result, val)
+			continue
+		}
+
+		result = append(result, symbol)
 	}
 
 	return strings.Join(result, "")
