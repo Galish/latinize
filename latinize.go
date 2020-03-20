@@ -1,8 +1,21 @@
 package latinize
 
-import "strings"
+import (
+	"strings"
+)
 
-func String(input string) string {
-	r := strings.NewReplacer(characters...)
-	return r.Replace(input)
+func String(str string) string {
+	var result = []string{}
+
+	for _, letter := range str {
+		val, ok := charactersMap[string(letter)]
+		if !ok {
+			result = append(result, string(letter))
+			continue
+		}
+
+		result = append(result, val)
+	}
+
+	return strings.Join(result, "")
 }
